@@ -14,10 +14,6 @@ from tqdm import tqdm
 import rarfile
 import zipfile
 
-# Constants
-
-VERSION = '1.1.0'
-
 
 # Functions
 
@@ -188,7 +184,7 @@ def main(
 ):
     """Main function to process the directory of CBR/CBZ/RAR/ZIP files."""
 
-    print(f'\n>>> 🪡 Manga-Stitcher v{VERSION} by recoskyler <<<\n\n')
+    print('\n>>> 🪡 Manga-Stitcher <<<\n\n')
 
     print(f'Processing directory: {directory}')
 
