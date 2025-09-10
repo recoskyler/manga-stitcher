@@ -1,0 +1,6 @@
+{
+    "$schema": "https://raw.githubusercontent.com/devcontainers/spec/refs/heads/main/schemas/devContainer.base.schema.json",
+    "name": "Manga Stitcher",
+    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.12-bullseye",
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}"
+}
