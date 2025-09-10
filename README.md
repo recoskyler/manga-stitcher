@@ -4,7 +4,7 @@ Manga Stitcher is a straightforward tool designed to automatically combine manga
 
 ## Features
 
-- Supports input from directories full of CBZ/CBR files.
+- Supports input from directories full of CBZ/CBR/ZIP/RAR files.
 - Outputs stitched images in the same format.
 - Optionally recursive directory traversal.
 - Configurable title and series metadata
@@ -20,21 +20,39 @@ Manga Stitcher is a straightforward tool designed to automatically combine manga
   - zipfile
   - cbz
 
-## Usage
+## Installation
+
+### By pip or PipX
+
+You can install Manga Stitcher via pip:
+
+```bash
+pip install manga-stitcher
+```
+
+ or using PipX:
+
+```bash
+pipx install manga-stitcher
+```
+
+### By cloning the repository
 
 1. Clone the repository:
 
    ```bash
-   git clone
+   git clone https://github.com/recoskyler/manga-stitcher
 
-   cd manga-stitcher
+   cd manga-stitcher/src/manga_stitcher_recoskyler
    ```
 
-2. Run the script:
+## Usage
 
-   ```bash
-   python3 ./manga-stitcher.py --help
-   ```
+Run the script with the desired options. For example:
+
+```bash
+manga_stitcher --title "My manga title" --series "My manga series" --recursive /path/to/manga
+```
 
 ## Development
 
