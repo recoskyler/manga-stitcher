@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "manga_stitcher_recoskyler"
-version = "1.0.2"
+version = "1.0.4"
 authors = [
   { name="recoskyler", email="38231748+recoskyler@users.noreply.github.com" },
 ]
@@ -23,4 +23,4 @@ Homepage = "https://github.com/recoskyler/manga-stitcher"
 Issues = "https://github.com/recoskyler/manga-stitcher/issues"
 
 [project.scripts]
-manga-stitcher = "manga_stitcher.cli:app"
+manga-stitcher = "manga_stitcher_recoskyler.cli:app"
