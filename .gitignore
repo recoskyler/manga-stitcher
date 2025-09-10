@@ -4,3 +4,10 @@
 *.cbz
 *.epub
 *.pdf
+*.mobi
+*.azw3
+*.opf
+src/__pycache__/
+src/*.pyc
+src/*.egg-info/
+dist
