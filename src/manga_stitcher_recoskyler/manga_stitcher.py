@@ -1,6 +1,8 @@
 #!/usr/local/bin/python
 
 from os.path import splitext, join
+import typer
+from typing_extensions import Annotated
 from cbz.constants import AgeRating, Format, Manga, PageType, YesNo
 from cbz.page import PageInfo
 from argparse import ArgumentParser
@@ -14,7 +16,7 @@ import zipfile
 
 # Constants
 
-VERSION = '1.0.0'
+VERSION = '1.1.0'
 
 
 # Functions
@@ -25,12 +27,12 @@ def parse_args():
 
     parser = ArgumentParser(
             prog='🪡 Manga-Stitcher',
-            description='Stitched the pages of a manga from CBZ/CBR chapter files.',
+            description="Manga Stitcher is a straightforward tool designed to automatically combine manga pages vertically, creating a seamless reading experience. Many manga releases include extra \"tail\" images—often containing the scanlator's logo or credits—in separate files. This script detects and merges these pages, saving you time and ensuring your manga is presented as intended.",
         )
 
     parser.add_argument(
         'directory',
-        help='The path to the directory full of CBZ/CBR chapters',
+        help='The path to the directory full of CBZ/CBR/RAR/ZIP chapters',
     )
 
     parser.add_argument(
@@ -39,7 +41,7 @@ def parse_args():
         action='store_true',
         default=False,
         dest='recursive',
-        help='Recursively search the directory for CBR/CBZ files',
+        help='Recursively search the directory for CBR/CBZ/RAR/ZIP files',
     )
 
     parser.add_argument(
@@ -64,7 +66,7 @@ def parse_args():
 
 
 def extract_cbr(cbr_path):
-    """Extract CBR file contents."""
+    """Extract CBR/RAR file contents."""
 
     with rarfile.RarFile(cbr_path) as rar_ref:
         extraction_dir = Path(cbr_path).with_suffix('')
@@ -74,7 +76,7 @@ def extract_cbr(cbr_path):
 
 
 def extract_cbz(cbz_path):
-    """Extract CBZ file contents."""
+    """Extract CBZ/ZIP file contents."""
 
     with zipfile.ZipFile(cbz_path) as zip_ref:
         extraction_dir = Path(cbz_path).with_suffix('')
@@ -84,12 +86,12 @@ def extract_cbz(cbz_path):
 
 
 def extract_comic(comic_path):
-    """Extract both CBZ and CBR files."""
+    """Extract both CBZ/ZIP and CBR/RAR files."""
 
     # Load the comic file
-    if str(comic_path).endswith('.cbz'):
+    if str(comic_path).endswith('.cbz') or str(comic_path).endswith('.zip'):
         comic = extract_cbz(comic_path)
-    elif str(comic_path).endswith('.cbr'):
+    elif str(comic_path).endswith('.cbr') or str(comic_path).endswith('.rar'):
         comic = extract_cbr(comic_path)
     else:
         raise ValueError("Unsupported format. Must be .cbz or .cbr")
@@ -136,7 +138,7 @@ def get_stitched_pages(extraction_dir: Path, chapter: int):
 
 
 def create_stitched_comic(files: list[Path], chapter: int, title: Optional[str] = None, series: Optional[str] = None):
-    """Create a stitched comic from the given chapter CBR/CBZ file list and index."""
+    """Create a stitched comic from the given chapter CBR/CBZ/RAR/ZIP file list and index."""
 
     filename = files[chapter]
 
@@ -178,8 +180,13 @@ def create_stitched_comic(files: list[Path], chapter: int, title: Optional[str] 
     extraction_dir.rmdir()
 
 
-def main(directory: str, recusrive: bool, title: Optional[str] = None, series: Optional[str] = None):
-    """Main function to process the directory of CBR/CBZ files."""
+def main(
+    directory: Annotated[str, typer.Argument(help="The path to the directory full of CBZ/CBR/RAR/ZIP chapters")] = "",
+    recusrive: Annotated[bool, typer.Option(help="Recursively search the directory for CBR/CBZ/RAR/ZIP files")] = False,
+    title: Annotated[str, typer.Argument(help="The title to use for the stitched manga (overrides default)")] = "",
+    series: Annotated[str, typer.Argument(help="The series to use for the stitched manga (overrides default)")] = ""
+):
+    """Main function to process the directory of CBR/CBZ/RAR/ZIP files."""
 
     print(f'\n>>> 🪡 Manga-Stitcher v{VERSION} by recoskyler <<<\n\n')
 
@@ -189,13 +196,18 @@ def main(directory: str, recusrive: bool, title: Optional[str] = None, series: O
 
     glob_term = '**/*' if recusrive else '*'
 
-    files = (p.resolve() for p in Path(directory).glob(glob_term) if p.suffix in {".cbz", ".cbr"})
+    files = (p.resolve() for p in Path(directory).glob(glob_term) if p.suffix in {".cbz", ".cbr", ".rar", ".zip"})
 
     # Sort files by name
 
     files = sorted(files)
 
     for chapter in tqdm(range(0, len(files)), desc='Chapters', unit='chapter', position=2):
+        # Skip already stitched files
+
+        if str(files[chapter]).endswith('.stitched.cbz') or str(files[chapter]).endswith('.stitched.cbr'):
+            continue
+
         create_stitched_comic(files, chapter, title, series)
 
     print('\nAll files processed!')
