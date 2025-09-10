@@ -1,0 +1,6 @@
+.ropeproject
+.env
+*.cbr
+*.cbz
+*.epub
+*.pdf
