@@ -65,6 +65,34 @@ manga_stitcher --title "My manga title" --series "My manga series" --recursive /
 
 3. Run the script with your desired options.
 
+### Building
+
+1. Ensure build tools are installed:
+
+    ```bash
+    python3 -m pip install --upgrade build
+    ```
+
+2. Build the package:
+
+    ```bash
+    python3 -m build
+    ```
+
+### Publishing
+
+1. Ensure Twine is installed:
+
+    ```bash
+    python3 -m pip install --upgrade twine
+    ```
+
+2. Publish the package:
+
+    ```bash
+    python3 -m twine upload --repository pypi dist/*
+    ```
+
 ## About
 
 By Adil Atalay Hamamcıoğlu - [recoskyler](https://github.com/recoskyler) - 2025
