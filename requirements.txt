@@ -1,0 +1,4 @@
+cbz==3.4.3
+Pillow==11.3.0
+rarfile==4.2
+tqdm==4.67.1
