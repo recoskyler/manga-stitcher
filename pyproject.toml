@@ -21,3 +21,6 @@ license-files = ["LICEN[CS]E*"]
 [project.urls]
 Homepage = "https://github.com/recoskyler/manga-stitcher"
 Issues = "https://github.com/recoskyler/manga-stitcher/issues"
+
+[project.scripts]
+manga-stitcher = "manga_stitcher.main:app"
