@@ -179,8 +179,8 @@ def create_stitched_comic(files: list[Path], chapter: int, title: Optional[str] 
 def main(
     directory: Annotated[str, typer.Argument(help="The path to the directory full of CBZ/CBR/RAR/ZIP chapters")] = "",
     recusrive: Annotated[bool, typer.Option(help="Recursively search the directory for CBR/CBZ/RAR/ZIP files")] = False,
-    title: Annotated[str, typer.Argument(help="The title to use for the stitched manga (overrides default)")] = "",
-    series: Annotated[str, typer.Argument(help="The series to use for the stitched manga (overrides default)")] = ""
+    title: Annotated[str, typer.Option(help="The title to use for the stitched manga (overrides default)")] = "",
+    series: Annotated[str, typer.Option(help="The series to use for the stitched manga (overrides default)")] = ""
 ):
     """Main function to process the directory of CBR/CBZ/RAR/ZIP files."""
 
